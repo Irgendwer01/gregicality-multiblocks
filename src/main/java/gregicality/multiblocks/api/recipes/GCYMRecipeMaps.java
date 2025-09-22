@@ -4,6 +4,7 @@ import gregtech.api.gui.GuiTextures;
 import gregtech.api.recipes.RecipeMap;
 import gregtech.api.recipes.RecipeMapBuilder;
 import gregtech.api.recipes.builders.BlastRecipeBuilder;
+import gregtech.core.sound.GTSoundEvents;
 
 public final class GCYMRecipeMaps {
 
@@ -17,6 +18,7 @@ public final class GCYMRecipeMaps {
                     .fluidSlotOverlay(GuiTextures.FURNACE_OVERLAY_2, false, false)
                     .fluidSlotOverlay(GuiTextures.FURNACE_OVERLAY_2, false, true)
                     .fluidSlotOverlay(GuiTextures.FURNACE_OVERLAY_2, true, true)
+                    .sound(GTSoundEvents.FURNACE)
                     .build();
 
     private GCYMRecipeMaps() {}
