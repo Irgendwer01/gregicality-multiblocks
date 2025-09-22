@@ -2,7 +2,6 @@ package gregicality.multiblocks.common.metatileentities.multiblockpart;
 
 import java.util.List;
 
-import gregtech.api.metatileentity.multiblock.AbilityInstances;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -17,6 +16,7 @@ import gregtech.api.gui.ModularUI;
 import gregtech.api.metatileentity.ITieredMetaTileEntity;
 import gregtech.api.metatileentity.MetaTileEntity;
 import gregtech.api.metatileentity.interfaces.IGregTechTileEntity;
+import gregtech.api.metatileentity.multiblock.AbilityInstances;
 import gregtech.api.metatileentity.multiblock.IMultiblockAbilityPart;
 import gregtech.api.metatileentity.multiblock.MultiblockAbility;
 import gregtech.common.metatileentities.multi.multiblockpart.MetaTileEntityMultiblockPart;

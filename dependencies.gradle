@@ -46,6 +46,6 @@ dependencies {
     api("appeng:ae2-uel:v0.56.4") { transitive = false }
     api rfg.deobf("curse.maven:ctm-267602:2915363") // CTM 1.0.2.31
 
-    api(rfg.deobf(project.files("libs/gregtech-1.12.2-2.9.0-beta_build-b24ff3e-dev.jar"))) // CEu pr 2.9.0
+    api(rfg.deobf(project.files("libs/gregtech-1.12.2-2.9.0-beta-dev.jar"))) // CEu pr 2.9.0
 
 }

@@ -5,8 +5,6 @@ import java.util.List;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.World;
 
 import org.jetbrains.annotations.NotNull;
@@ -15,10 +13,11 @@ import org.jetbrains.annotations.Nullable;
 import gregtech.api.GTValues;
 import gregtech.api.metatileentity.ITieredMetaTileEntity;
 import gregtech.api.metatileentity.multiblock.MultiMapMultiblockController;
-import gregtech.api.metatileentity.multiblock.MultiblockDisplayText;
+import gregtech.api.metatileentity.multiblock.ui.MultiblockUIBuilder;
 import gregtech.api.pattern.TraceabilityPredicate;
 import gregtech.api.recipes.RecipeMap;
 import gregtech.api.util.GTUtility;
+import gregtech.api.util.KeyUtil;
 
 import gregicality.multiblocks.api.capability.IParallelMultiblock;
 import gregicality.multiblocks.api.capability.impl.GCYMMultiblockRecipeLogic;
@@ -46,12 +45,11 @@ public abstract class GCYMRecipeMapMultiblockController extends MultiMapMultiblo
     }
 
     @Override
-    protected void addDisplayText(List<ITextComponent> textList) {
-        MultiblockDisplayText.builder(textList, isStructureFormed())
-                .setWorkingStatus(recipeMapWorkable.isWorkingEnabled(), recipeMapWorkable.isActive())
+    protected void configureDisplayText(MultiblockUIBuilder builder) {
+        builder.setWorkingStatus(recipeMapWorkable.isWorkingEnabled(), recipeMapWorkable.isActive())
                 .addEnergyUsageLine(getEnergyContainer())
                 .addEnergyTierLine(GTUtility.getTierByVoltage(recipeMapWorkable.getMaxVoltage()))
-                .addCustom(tl -> {
+                .addCustom((tl, uiSyncer) -> {
                     // Tiered Hatch Line
                     if (isStructureFormed()) {
                         List<ITieredMetaTileEntity> list = getAbilities(GCYMMultiblockAbility.TIERED_HATCH);
@@ -59,14 +57,14 @@ public abstract class GCYMRecipeMapMultiblockController extends MultiMapMultiblo
                             long maxVoltage = Math.min(GTValues.V[list.get(0).getTier()],
                                     Math.max(energyContainer.getInputVoltage(), energyContainer.getOutputVoltage()));
                             String voltageName = GTValues.VNF[list.get(0).getTier()];
-                            tl.add(new TextComponentTranslation("gcym.multiblock.tiered_hatch.tooltip", maxVoltage,
+                            tl.add(KeyUtil.lang("gcym.multiblock.tiered_hatch.tooltip", maxVoltage,
                                     voltageName));
                         }
                     }
                 })
                 .addParallelsLine(recipeMapWorkable.getParallelLimit())
                 .addWorkingStatusLine()
-                .addProgressLine(recipeMapWorkable.getProgressPercent());
+                .addProgressLine(recipeMapWorkable.getProgress(), recipeMapWorkable.getMaxProgress());
     }
 
     @Override

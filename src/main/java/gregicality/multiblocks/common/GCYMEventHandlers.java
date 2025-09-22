@@ -1,13 +1,13 @@
 package gregicality.multiblocks.common;
 
-import gregtech.api.GregTechAPI;
-import gregtech.api.metatileentity.registry.MTEManager;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import org.jetbrains.annotations.ApiStatus;
 
+import gregtech.api.GregTechAPI;
+import gregtech.api.metatileentity.registry.MTEManager;
 import gregtech.api.unification.material.event.MaterialEvent;
 import gregtech.api.unification.material.event.PostMaterialEvent;
 

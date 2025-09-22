@@ -4,21 +4,17 @@ import static gregtech.api.recipes.logic.OverclockingLogic.heatingCoilOC;
 
 import java.util.List;
 
-import gregtech.api.recipes.logic.OCParams;
-import gregtech.api.recipes.logic.OCResult;
-import gregtech.api.recipes.properties.RecipePropertyStorage;
-import gregtech.api.recipes.properties.impl.TemperatureProperty;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import com.cleanroommc.modularui.api.drawable.IKey;
 
 import gregtech.api.GTValues;
 import gregtech.api.block.IHeatingCoilBlockStats;
@@ -29,17 +25,21 @@ import gregtech.api.metatileentity.MetaTileEntity;
 import gregtech.api.metatileentity.interfaces.IGregTechTileEntity;
 import gregtech.api.metatileentity.multiblock.IMultiblockPart;
 import gregtech.api.metatileentity.multiblock.MultiblockAbility;
-import gregtech.api.metatileentity.multiblock.MultiblockDisplayText;
 import gregtech.api.metatileentity.multiblock.RecipeMapMultiblockController;
+import gregtech.api.metatileentity.multiblock.ui.MultiblockUIBuilder;
 import gregtech.api.pattern.BlockPattern;
 import gregtech.api.pattern.FactoryBlockPattern;
 import gregtech.api.pattern.PatternMatchContext;
 import gregtech.api.pattern.TraceabilityPredicate;
 import gregtech.api.recipes.Recipe;
 import gregtech.api.recipes.RecipeMaps;
+import gregtech.api.recipes.logic.OCParams;
+import gregtech.api.recipes.logic.OCResult;
+import gregtech.api.recipes.properties.RecipePropertyStorage;
+import gregtech.api.recipes.properties.impl.TemperatureProperty;
 import gregtech.api.unification.material.Materials;
 import gregtech.api.util.GTUtility;
-import gregtech.api.util.TextComponentUtil;
+import gregtech.api.util.KeyUtil;
 import gregtech.api.util.TextFormattingUtil;
 import gregtech.client.renderer.ICubeRenderer;
 import gregtech.client.renderer.texture.Textures;
@@ -70,12 +70,11 @@ public class MetaTileEntityMegaBlastFurnace extends GCYMRecipeMapMultiblockContr
     }
 
     @Override
-    protected void addDisplayText(List<ITextComponent> textList) {
-        MultiblockDisplayText.builder(textList, isStructureFormed())
-                .setWorkingStatus(recipeMapWorkable.isWorkingEnabled(), recipeMapWorkable.isActive())
+    protected void configureDisplayText(MultiblockUIBuilder builder) {
+        builder.setWorkingStatus(recipeMapWorkable.isWorkingEnabled(), recipeMapWorkable.isActive())
                 .addEnergyUsageLine(getEnergyContainer())
                 .addEnergyTierLine(GTUtility.getTierByVoltage(recipeMapWorkable.getMaxVoltage()))
-                .addCustom(tl -> {
+                .addCustom((tl, uiSyncer) -> {
                     // Tiered Hatch Line
                     if (isStructureFormed()) {
                         List<ITieredMetaTileEntity> list = getAbilities(GCYMMultiblockAbility.TIERED_HATCH);
@@ -83,19 +82,19 @@ public class MetaTileEntityMegaBlastFurnace extends GCYMRecipeMapMultiblockContr
                             long maxVoltage = Math.min(GTValues.V[list.get(0).getTier()],
                                     Math.max(energyContainer.getInputVoltage(), energyContainer.getOutputVoltage()));
                             String voltageName = GTValues.VNF[list.get(0).getTier()];
-                            tl.add(new TextComponentTranslation("gcym.multiblock.tiered_hatch.tooltip", maxVoltage,
+                            tl.add(KeyUtil.lang("gcym.multiblock.tiered_hatch.tooltip", maxVoltage,
                                     voltageName));
                         }
                     }
                 })
-                .addCustom(tl -> {
+                .addCustom((tl, uiSyncer) -> {
                     // Coil heat capacity line
                     if (isStructureFormed()) {
-                        ITextComponent heatString = TextComponentUtil.stringWithColor(
+                        IKey heatString = KeyUtil.string(
                                 TextFormatting.RED,
                                 TextFormattingUtil.formatNumbers(blastFurnaceTemperature) + "K");
 
-                        tl.add(TextComponentUtil.translationWithColor(
+                        tl.add(KeyUtil.lang(
                                 TextFormatting.GRAY,
                                 "gregtech.multiblock.blast_furnace.max_temperature",
                                 heatString));
@@ -103,7 +102,7 @@ public class MetaTileEntityMegaBlastFurnace extends GCYMRecipeMapMultiblockContr
                 })
                 .addParallelsLine(recipeMapWorkable.getParallelLimit())
                 .addWorkingStatusLine()
-                .addProgressLine(recipeMapWorkable.getProgressPercent());
+                .addProgressLine(recipeMapWorkable.getProgress(), recipeMapWorkable.getMaxProgress());
     }
 
     @Override

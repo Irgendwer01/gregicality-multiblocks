@@ -21,7 +21,7 @@ public final class GCYMFirstDegreeMaterials {
                 .flags(GENERATE_PLATE)
                 .components(Iron, 4, Chrome, 3, Tungsten, 2, Molybdenum, 1)
                 .blast(b -> b
-        .temp(3790, BlastProperty.GasTier.HIGH)
+                        .temp(3790, BlastProperty.GasTier.HIGH)
                         .blastStats(GTValues.VA[GTValues.EV], 1000))
                 .build();
 
