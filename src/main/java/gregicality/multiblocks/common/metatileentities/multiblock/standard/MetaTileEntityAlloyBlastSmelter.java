@@ -1,5 +1,7 @@
 package gregicality.multiblocks.common.metatileentities.multiblock.standard;
 
+import static gregtech.api.util.RelativeDirection.*;
+
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -10,12 +12,13 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import com.cleanroommc.modularui.api.drawable.IKey;
 
 import gregtech.api.GTValues;
 import gregtech.api.GregTechAPI;
@@ -36,7 +39,6 @@ import gregtech.api.recipes.Recipe;
 import gregtech.api.recipes.properties.impl.TemperatureProperty;
 import gregtech.api.util.GTUtility;
 import gregtech.api.util.KeyUtil;
-import gregtech.api.util.TextComponentUtil;
 import gregtech.api.util.TextFormattingUtil;
 import gregtech.client.renderer.ICubeRenderer;
 import gregtech.client.renderer.texture.cube.OrientedOverlayRenderer;
@@ -73,7 +75,7 @@ public class MetaTileEntityAlloyBlastSmelter extends RecipeMapMultiblockControll
                 .addCustom((tl, uiSyncer) -> {
                     // Coil heat capacity line
                     if (isStructureFormed()) {
-                        ITextComponent heatString = TextComponentUtil.stringWithColor(
+                        IKey heatString = KeyUtil.lang(
                                 TextFormatting.RED,
                                 TextFormattingUtil.formatNumbers(blastFurnaceTemperature) + "K");
 
@@ -136,7 +138,7 @@ public class MetaTileEntityAlloyBlastSmelter extends RecipeMapMultiblockControll
     @Override
     public List<MultiblockShapeInfo> getMatchingShapes() {
         ArrayList<MultiblockShapeInfo> shapeInfo = new ArrayList<>();
-        MultiblockShapeInfo.Builder builder = MultiblockShapeInfo.builder()
+        MultiblockShapeInfo.Builder builder = MultiblockShapeInfo.builder(RIGHT, DOWN, FRONT)
                 .aisle("#XEX#", "#CCC#", "#GGG#", "#CCC#", "#XXX#")
                 .aisle("XXXXX", "C###C", "G###G", "C###C", "XXXXX")
                 .aisle("XXXXX", "C###C", "G###G", "C###C", "XXMXX")

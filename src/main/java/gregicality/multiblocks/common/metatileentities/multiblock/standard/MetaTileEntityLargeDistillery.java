@@ -8,11 +8,12 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.fluids.FluidStack;
 
 import org.jetbrains.annotations.NotNull;
+
+import com.cleanroommc.modularui.api.drawable.IKey;
 
 import gregtech.api.capability.IDistillationTower;
 import gregtech.api.capability.IMultipleTankHandler;
@@ -92,7 +93,7 @@ public class MetaTileEntityLargeDistillery extends GCYMRecipeMapMultiblockContro
         if (isStructureFormed()) {
             FluidStack stackInTank = importFluids.drain(Integer.MAX_VALUE, false);
             if (stackInTank != null && stackInTank.amount > 0) {
-                ITextComponent fluidName = TextComponentUtil.setColor(GTUtility.getFluidTranslation(stackInTank),
+                IKey fluidName = KeyUtil.lang(stackInTank.getLocalizedName(),
                         TextFormatting.AQUA);
                 builder.addCustom((keyManager, uiSyncer) -> keyManager.add(KeyUtil.lang(TextFormatting.GRAY,
                         "gregtech.multiblock.distillation_tower.distilling_fluid",
