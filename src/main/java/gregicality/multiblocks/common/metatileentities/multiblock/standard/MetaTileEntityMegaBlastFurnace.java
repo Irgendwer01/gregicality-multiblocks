@@ -79,8 +79,8 @@ public class MetaTileEntityMegaBlastFurnace extends GCYMRecipeMapMultiblockContr
                     if (isStructureFormed()) {
                         List<ITieredMetaTileEntity> list = getAbilities(GCYMMultiblockAbility.TIERED_HATCH);
                         if (GCYMConfigHolder.globalMultiblocks.enableTieredCasings && !list.isEmpty()) {
-                            long maxVoltage = Math.min(GTValues.V[list.get(0).getTier()],
-                                    Math.max(energyContainer.getInputVoltage(), energyContainer.getOutputVoltage()));
+                            long maxVoltage = uiSyncer.syncLong(Math.min(GTValues.V[list.get(0).getTier()],
+                                    Math.max(energyContainer.getInputVoltage(), energyContainer.getOutputVoltage())));
                             String voltageName = GTValues.VNF[list.get(0).getTier()];
                             tl.add(KeyUtil.lang("gcym.multiblock.tiered_hatch.tooltip", maxVoltage,
                                     voltageName));
@@ -92,7 +92,7 @@ public class MetaTileEntityMegaBlastFurnace extends GCYMRecipeMapMultiblockContr
                     if (isStructureFormed()) {
                         IKey heatString = KeyUtil.string(
                                 TextFormatting.RED,
-                                TextFormattingUtil.formatNumbers(blastFurnaceTemperature) + "K");
+                                TextFormattingUtil.formatNumbers(uiSyncer.syncInt(blastFurnaceTemperature)) + "K");
 
                         tl.add(KeyUtil.lang(
                                 TextFormatting.GRAY,

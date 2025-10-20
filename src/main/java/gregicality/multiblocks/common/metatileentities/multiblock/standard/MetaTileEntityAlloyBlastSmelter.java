@@ -77,7 +77,7 @@ public class MetaTileEntityAlloyBlastSmelter extends RecipeMapMultiblockControll
                     if (isStructureFormed()) {
                         IKey heatString = KeyUtil.lang(
                                 TextFormatting.RED,
-                                TextFormattingUtil.formatNumbers(blastFurnaceTemperature) + "K");
+                                TextFormattingUtil.formatNumbers(uiSyncer.syncInt(blastFurnaceTemperature)) + "K");
 
                         tl.add(KeyUtil.lang(
                                 TextFormatting.GRAY,

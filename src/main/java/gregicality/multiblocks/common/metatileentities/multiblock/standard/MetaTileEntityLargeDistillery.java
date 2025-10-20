@@ -1,5 +1,6 @@
 package gregicality.multiblocks.common.metatileentities.multiblock.standard;
 
+
 import static gregtech.api.util.RelativeDirection.*;
 
 import java.util.function.Function;
@@ -91,16 +92,17 @@ public class MetaTileEntityLargeDistillery extends GCYMRecipeMapMultiblockContro
     @Override
     protected void configureDisplayText(MultiblockUIBuilder builder) {
         if (isStructureFormed()) {
-            FluidStack stackInTank = importFluids.drain(Integer.MAX_VALUE, false);
-            if (stackInTank != null && stackInTank.amount > 0) {
-                IKey fluidName = KeyUtil.lang(stackInTank.getLocalizedName(),
-                        TextFormatting.AQUA);
-                builder.addCustom((keyManager, uiSyncer) -> keyManager.add(KeyUtil.lang(TextFormatting.GRAY,
-                        "gregtech.multiblock.distillation_tower.distilling_fluid",
-                        fluidName)));
-            }
+            builder.addCustom((keyManager, uiSyncer) -> {
+                FluidStack stackInTank = uiSyncer.syncFluidStack(importFluids.drain(Integer.MAX_VALUE, false));
+                if (stackInTank != null && stackInTank.amount > 0) {
+                    IKey fluidName = KeyUtil.lang(stackInTank.getLocalizedName(),
+                            TextFormatting.AQUA);
+                    keyManager.add(KeyUtil.lang(TextFormatting.GRAY,
+                            "gregtech.multiblock.distillation_tower.distilling_fluid",
+                            fluidName));
+                }
+            });
         }
-
         super.configureDisplayText(builder);
     }
 
