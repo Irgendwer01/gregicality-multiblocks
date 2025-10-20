@@ -1,6 +1,5 @@
 package gregicality.multiblocks.common.metatileentities.multiblock.standard;
 
-
 import static gregtech.api.util.RelativeDirection.*;
 
 import java.util.function.Function;
